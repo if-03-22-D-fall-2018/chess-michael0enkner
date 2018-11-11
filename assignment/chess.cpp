@@ -142,40 +142,73 @@
 
   bool squares_share_diagonal(File file, Rank rank, File file02, Rank rank02)
   {
-   if (rank > 8 || rank < 1 || rank02 > 8 || rank02 < 1|| file < 'a' || file > 'h' || file02 < 'a' || file02 > 'h')
-   {
-     return false;
-   }
-   int dv;
-   int dh;
-   if (file - file02 < 0)
-   {
-     dv = (file - file02) * -1;
-   }
-   if (dh = rank - rank02 < 0)
-   {
-     dh = (rank - rank02) * -1;
-   }
-   return dh = dv;
+    if (rank > 8 || rank < 1 || rank02 > 8 || rank02 < 1|| file < 'a' || file > 'h' || file02 < 'a' || file02 > 'h')
+    {
+      return false;
+    }
+    int dv;
+    int dh;
+    if (file - file02 < 0)
+    {
+      dv = (file - file02) * -1;
+    }
+    if (dh = rank - rank02 < 0)
+    {
+      dh = (rank - rank02) * -1;
+    }
+    return dh = dv;
   }
 
   bool squares_share_knights_move(File file, Rank rank, File file02, Rank rank02)
   {
-    if (rank > 8 || rank < 1 || rank02 > 8 || rank02 < 1|| file < 'a' || file > 'h' || file02 < 'a' || file02 > 'h')
+    if(file > 'h' || file < 'a' || rank > 8 || rank < 1 || file02 > 'h' || file02  < 'a' || rank02 > 8 || rank02 < 1)
     {
       return false;
     }
-    return ()
+    return ((file02 == file+1 && rank02 == rank+2) || (file02 == file-1 && rank02 == rank-2) || (file02 == file-2 && rank02 == rank-1) || (file02 == file+2 && rank02 == rank+1)
+ || (file02 == file-1 && rank02 == rank+2) || (file02 == file+1 && rank02 == rank-2)|| (file02 == file+2 && rank02 == rank-1) || (file02 == file-2 && rank02 == rank+1));
   }
 
   bool squares_share_pawns_move (enum PieceColor color, enum MoveType move, File file, Rank rank, File file02, Rank rank02)
   {
-    if (rank > 8 || rank < 1 || rank02 > 8 || rank02 < 1|| file < 'a' || file > 'h' || file02 < 'a' || file02 > 'h')
-    {
-      return false;
-    }
-  }
+      if (move == NormalMove)
+      {
+        if (rank == 1 || rank == 8)
+        {
+          return false;
+        }
+        if (color == Black && rank == 7)
+        {
+          return ((rank02 == rank-2 && file02 == file) || (rank02 == rank-1 && file02 == file));
+        }
+        else if (color == White && rank == 2)
+        {
+          return ((rank02 == rank+2 && file02 == file) || (rank02 == rank+1 && file02 == file));
+        }
+        if (color == Black && rank >= 4)
+        {
+          return (rank02 == rank-1 && file02 == file);
+        }
+        else if (color == White && rank <= 4)
+        {
+          return (rank02 == rank+1 && file02 == file);
+        }
 
+      }
+
+      if (move == CaptureMove)
+      {
+        if (color == Black)
+        {
+          return (file02 == file+1 && rank02 == rank-1) || (file02 == file-1 && rank02 == rank-1);
+        }
+        else
+        {
+          return (file02 == file-1 && rank02 == rank+1) || (file02 == file+1 && rank02 == rank+1);
+        }
+      }
+      return false;
+  }
   bool squares_share_kings_move(File file, Rank rank, File file02, Rank rank02)
   {
     if (rank > 8 || rank < 1 || rank02 > 8 || rank02 < 1|| file < 'a' || file > 'h' || file02 < 'a' || file02 > 'h')
